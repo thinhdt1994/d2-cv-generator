@@ -1,38 +1,65 @@
-.App {
-  text-align: center;
+.template-list {
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.template {
+    box-shadow:5px 5px 10px #5F5F5F; 
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.template__preview {
+    position: relative;
+    cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.template__thumbnail {
+    width: 100%;
+    height: 500px;
+    object-position: 0 0;
+    object-fit: cover;
 }
 
-.App-link {
-  color: #61dafb;
+.template__status {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.template__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.template__selected-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    color: green;
+}
+
+
+.template__name {
+    margin-top: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.template__description {
+    margin-top: 8px;
+    padding-bottom: 16px;
+    text-align: center;
+}
+
+.cv-editor {
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
