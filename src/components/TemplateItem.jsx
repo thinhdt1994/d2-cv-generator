@@ -10,7 +10,7 @@ function TemplateItem(props) {
                     let src = process.env.REACT_APP_ROOT_URL + props.template.thumbnail;
                     return (
                         <>
-                            <div className="col-sm-6 template">
+                            <div className="col-lg-3 col-md-4 col-sm-2 template">
                                 <div className="template__preview" onClick={() => {setCurrentTemplateId(props.template.id)}}>
                                     <img src={src} alt={`template-${props.template.id}`} className="template__thumbnail"/>
                                     <div className={`template__status ${displayClassName}`}>
