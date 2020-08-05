@@ -3,12 +3,12 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import TemplateList from './components/TemplateList';
+import CVList from './components/CVList';
 import CVEditor from './components/CVEditor';
 import DataContext from './contexts/DataContext';
 const axios = require('axios');
 
 function App() {
-  const [currentTemplateId, setCurrentTemplateId] = useState(0);
   const [templates, setTemplates] = useState([]);
   useEffect(() => {
     axios.get(process.env.REACT_APP_TEMPLATES_URL)
@@ -23,17 +23,24 @@ function App() {
       // always executed
     });
   }, []);
+
+  const [updateValue, setUpdateValue] = useState(false);
+  const [currentCv, setCurrentCv] = useState(null);
   const data = {
     templates,
-    currentTemplateId,
-    setCurrentTemplateId
+    currentCv,
+    setCurrentCv,
+    updateValue,
+    setUpdateValue
   };
+
   return (
     <DataContext.Provider value={data}>
       <div className="App">
         <Header />
         <TemplateList />
-        <CVEditor template="template1"/>
+        <CVList />
+        <CVEditor />
         <Footer />
       </div>
     </DataContext.Provider>

@@ -7,28 +7,6 @@ const axios = require('axios');
 
 function CVEditor(props) {
     const captureRef = useRef(null);
-    const {templates, currentTemplateId} = useContext(DataContext);
-    let currentTemplate = {};
-    for(let template of templates) {
-        if (template.id === currentTemplateId) {
-            currentTemplate = template;
-            break;
-        }
-    }
-    const [content, setContent] = useState('');
-    useEffect(() => {
-        axios.get(process.env.REACT_APP_ROOT_URL + currentTemplate.file)
-        .then(function (response) {
-            // handle success
-            setContent(response.data);
-        })
-        .catch(function (error) {
-            // handle error
-        })
-        .then(function () {
-            // always executed
-        });
-    }, [currentTemplateId]);
 
     // function exportToPdf(captureRef) {
     //     let element = captureRef.current;
@@ -111,32 +89,73 @@ function CVEditor(props) {
         });
     }
 
+    function saveCV(currentCv, captureRef, updateValue, setUpdateValue) {
+        let element = captureRef.current;
+        let cv = Object.assign({}, currentCv, {content: element.innerHTML});
+        cv = JSON.stringify(cv);
+        localStorage.setItem('cv-' + currentCv.id, cv);
+        setUpdateValue(!updateValue);
+    }
+
+    function updateCvName(event, currentCv, setCurrentCv) {
+        let cv = Object.assign({}, currentCv, {name: event.target.value});
+        setCurrentCv(cv);
+    }
+
+    function updateCvDescription(event, currentCv, setCurrentCv) {
+        let cv = Object.assign({}, currentCv, {description: event.target.value});
+        setCurrentCv(cv);
+    }
+
     return (
-        <div className="container cv-editor">
-            <form>
-                <div className="card">
-                    <div className="card-header">
-                        <h3 className="text-center">Chỉnh sửa CV</h3>
-                    </div>
-                    <div className="card-body">
-                        <div ref={captureRef}
-                            className="mt4" 
-                            style={{
-                                width: '210mm',
-                                minHeight: '297mm',
-                                marginLeft: 'auto',
-                                marginRight: 'auto'
-                            }} 
-                        >
-                            <InnerHTML html={content} />
-                        </div>
-                    </div>
-                    <div className="card-footer">
-                        <button type="button" className="btn btn-success" onClick={() => {exportToPdf(captureRef)}}><i className="fa fa-file-pdf-o" aria-hidden="true"></i> Xuất sang pdf và tải về</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+        <DataContext.Consumer>
+            {
+                ({currentCv, setCurrentCv, updateValue, setUpdateValue}) => {
+                    if (currentCv === null) {
+                        return <div className="container cv-editor"></div>;
+                    } else {
+                        return (
+                            <div className="container cv-editor">
+                                <form>
+                                    <div className="card">
+                                        <div className="card-header">
+                                            <h3 className="text-center">Chỉnh sửa CV</h3>
+                                            <div className="form-group">
+                                                <label>Tên:</label>
+                                                <input type="text" className="form-control" value={currentCv.name} onChange={(event) => {updateCvName(event, currentCv, setCurrentCv)}}/>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Mô tả:</label>
+                                                <textarea className="form-control" value={currentCv.description} onChange={(event) => {updateCvDescription(event, currentCv, setCurrentCv)}}/>
+                                            </div>
+                                        </div>
+                                        <div className="card-body">
+                                            <div ref={captureRef}
+                                                className="mt4" 
+                                                style={{
+                                                    width: '210mm',
+                                                    minHeight: '297mm',
+                                                    marginLeft: 'auto',
+                                                    marginRight: 'auto'
+                                                }} 
+                                            >
+                                                <InnerHTML html={currentCv.content} />
+                                            </div>
+                                        </div>
+                                        <div className="card-footer">
+                                            <button type="button" className="btn btn-primary mr-2" onClick={() => {saveCV(currentCv, captureRef, updateValue, setUpdateValue)}}><i className="fa fa-save"></i> Lưu CV</button>
+                                            <button type="button" className="btn btn-success" onClick={() => {exportToPdf(captureRef)}}><i className="fa fa-file-pdf-o" aria-hidden="true"></i> Xuất sang pdf và tải về</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        );
+                    }
+                    
+                }
+            }
+            
+        </DataContext.Consumer>
     );
   }
   

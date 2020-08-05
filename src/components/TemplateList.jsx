@@ -12,11 +12,11 @@ function TemplateList(props) {
                                 <h3 className="text-center">Chọn mẫu CV</h3>
                             </div>
                             <div className="card-body">
-                                <div className="row">
+                                <div className="row flex-nowrap scroll-x">
                                     {
-                                    templates.map((template, index) => (
-                                        <TemplateItem key={index} template={template} />
-                                    ))
+                                        templates.map((template, index) => (
+                                            <TemplateItem key={index} template={template} />
+                                        ))
                                     }
                                 </div>
                             </div>

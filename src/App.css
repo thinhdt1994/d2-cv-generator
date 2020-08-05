@@ -1,3 +1,7 @@
+.scroll-x {
+    overflow-x: scroll;
+}
+
 .template-list {
     margin-top: 8px;
     margin-bottom: 8px;
